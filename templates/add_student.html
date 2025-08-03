@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<form method="post">
+   {% csrf_token %}
+
+
+   <!-- Added By -->
+   <label for="added_by">Added By:</label><br>
+   <select id="added_by" name="added_by" required>
+       {% if request.user.role == 'admin' %}
+           <option value="">Select user</option>
+           {% for user in users %}
+               <option value="{{ user.id }}" {% if student and student.added_by.id == user.id %}selected {% endif %}>
+                   {{ user.username }}
+               </option>
+           {% endfor %}
+       {% else %}
+           <option value="{{ request.user.id }}" selected>{{ request.user.username }}</option>
+       {% endif %}
+   </select><br><br>
+
+
+   <!-- Name -->
+   <label>Name:</label><br>
+   <input type="text" name="name" value="{{ student.name|default_if_none:'' }}" required><br><br>
+
+
+   <!-- Email -->
+   <label>Email:</label><br>
+   <input type="email" name="email" value="{{ student.email|default_if_none:'' }}" required><br><br>
+    {% if messages %}
+ <ul style="list-style-type: none; padding: 0;">
+   {% for message in messages %}
+     <li style="color: red; font-weight: bold;">{{ message }}</li>
+   {% endfor %}
+ </ul>
+{% endif %}
+
+
+
+   <!-- Age -->
+   <label>Age:</label><br>
+   <input type="number" name="age" value="{{ student.age|default_if_none:'' }}" required><br><br>
+
+
+   <!-- Place -->
+   <label>Place:</label><br>
+   <input type="text" name="place" value="{{ student.place|default_if_none:'' }}" required><br><br>
+
+
+   <!-- Gender -->
+   <label>Gender:</label><br>
+   <input type="radio" name="gender" value="Male" {% if student.gender == 'Male' %}checked{% endif %}> Male<br>
+   <input type="radio" name="gender" value="Female" {% if student.gender == 'Female' %}checked{% endif %}> Female<br>
+   <input type="radio" name="gender" value="Other" {% if student.gender == 'Other' %}checked{% endif %}> Other<br><br>
+
+
+   <!-- Skillset (Checkboxes) -->
+   <label>Skillset:</label><br>
+<input type="checkbox" name="skillset" value="Django" {% if 'Django' in skills %}checked{% endif %}> Django<br>
+<input type="checkbox" name="skillset" value="HTML" {% if 'HTML' in skills %}checked{% endif %}> HTML<br>
+<input type="checkbox" name="skillset" value="CSS" {% if 'CSS' in skills %}checked{% endif %}> CSS<br>
+<input type="checkbox" name="skillset" value="JavaScript" {% if 'JavaScript' in skills %}checked{% endif %}> JavaScript<br><br>
+
+
+
+
+   <!-- State (Dropdown) -->
+   <label for="state">State:</label><br>
+   <select id="state" name="state" required>
+       <option value="">Select State</option>
+       <option value="AP" {% if student.state == 'AP' %}selected{% endif %}>Andhra Pradesh (AP)</option>
+       <option value="TS" {% if student.state == 'TS' %}selected{% endif %}>Telangana (TS)</option>
+       <option value="KA" {% if student.state == 'KA' %}selected{% endif %}>Karnataka (KA)</option>
+       <option value="TL" {% if student.state == 'TL' %}selected{% endif %}>Tamil Nadu (TL)</option>
+   </select><br><br>
+
+
+
+   <button type="submit">{% if student %}Update{% else %}Add{% endif %} Student</button>
+</form>
+
+
+{% endblock %}

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>Title</title>
+
+
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="../static/css/login.css">
+    {% comment %}
+    <link rel="stylesheet" href="{% static '../static/css/login.css' %}">
+    {% endcomment %}
+    <style>
+
+
+
+
+
+
+   </style>
+</head>
+<body>
+<div class="overlay">
+<!-- LOGN IN FORM by Omar Dsoky -->
+<form method="POST">
+   {% csrf_token %}
+  <!--   con = Container  for items in the form-->
+  <div class="con">
+  <!--     Start  header Content  -->
+  <header class="head-form">
+     <h2>Log In</h2>
+     <!--     A welcome message or an explanation of the login form -->
+
+
+  </header>
+  <!--     End  header Content  -->
+  <br>
+  <div class="field-set">
+
+
+     <!--   user name -->
+        <span class="input-item">
+          <i class="fa fa-user-circle"></i>
+        </span>
+       <!--   user name Input-->
+        <input class="form-input" id="txt-input" type="text" placeholder="Enter UserName" name="username"required>
+
+
+     <br>
+
+
+          <!--   Password -->
+
+
+     <span class="input-item">
+       <i class="fa fa-key"></i>
+      </span>
+     <!--   Password Input-->
+     <input class="form-input" type="password" placeholder="Enter Password" id="pwd"  name="password" required>
+</div>
+     <br>
+<!--        buttons -->
+<!--      button LogIn -->
+     <button class="log-in" type="submit"> Log In </button>
+       <a href="{% url 'register' %}" class="btn" style="text-decoration: none;">
+     <button type="button" class="sign-in">Register</button>
+</a>
+{% if messages %}
+ <ul style="list-style-type: none; padding: 0;">
+   {% for message in messages %}
+     <li style="color: red; font-weight: bold;">{{ message }}</li>
+   {% endfor %}
+ </ul>
+{% endif %}
+
+
+
+
+ </div>
+
+
+ <!-- End Form -->
+</form>
+
+
+</div>
+</body>
+</html>
+
+
+

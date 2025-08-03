@@ -1,0 +1,173 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+ <style>
+   .doc-container {
+     background-color: #f9f9f9;
+     padding: 40px;
+     border-radius: 12px;
+     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+   }
+   .doc-container h1 {
+     color: #2c3e50;
+     font-size: 32px;
+     font-weight: 700;
+     margin-bottom: 30px;
+   }
+   .doc-container h2 {
+     color: #34495e;
+     font-size: 24px;
+     border-bottom: 2px solid #ddd;
+     padding-bottom: 5px;
+     margin-top: 30px;
+   }
+   .doc-container h3 {
+     color: #5d6d7e;
+     font-size: 20px;
+     margin-top: 20px;
+   }
+   .doc-container ul {
+     margin-left: 20px;
+     margin-top: 10px;
+   }
+   .doc-container ul li {
+     margin-bottom: 8px;
+   }
+   .doc-container code {
+     background-color: #eef1f5;
+     padding: 2px 6px;
+     border-radius: 4px;
+     font-size: 90%;
+   }
+   .check-list li::before {
+     content: "✔";
+     color: green;
+     margin-right: 8px;
+   }
+ </style>
+
+
+ <div class="container mt-4 doc-container">
+   <h1>Welcome to Palle Dashboard</h1>
+
+
+   <h2>1. Introduction</h2>
+   <p>
+     The Palle Admin Project is a role-based access control (RBAC) system built with Django for managing employees and students. It supports two user types:
+   </p>
+   <ul>
+     <li><strong>Admin</strong> – Full permissions</li>
+     <li><strong>Sales</strong> – Limited access</li>
+   </ul>
+
+
+   <h2>2. System Components & Workflow</h2>
+
+
+   <h3>2.1 User Roles & Permissions</h3>
+   <ul>
+     <li>
+       <strong>Admin (Superuser/Full Control)</strong>
+       <ul>
+         <li>View, add, update, and delete employees and students</li>
+         <li>Full access to Admin Dashboard</li>
+         <li>Can assign a student to any employee via the <code>added_by</code> dropdown</li>
+       </ul>
+     </li>
+     <li>
+       <strong>Sales (Restricted Access)</strong>
+       <ul>
+         <li>Can add new students and view student list (read-only)</li>
+         <li>Cannot modify/delete students or view employees</li>
+         <li><code>added_by</code> is auto-filled with their own username</li>
+       </ul>
+     </li>
+   </ul>
+
+
+   <h3>2.2 Authentication & Login Flow</h3>
+   <ul>
+     <li><strong>Superuser Creation:</strong> Created using Django’s <code>createsuperuser</code> command</li>
+     <li><strong>Role-Based Redirect:</strong>
+       <ul>
+         <li>Admins → Admin Dashboard</li>
+         <li>Sales → Sales Dashboard</li>
+       </ul>
+     </li>
+     <li><strong>Welcome Message:</strong> Displays <em>"Welcome, [Username]"</em></li>
+   </ul>
+
+
+   <h2>3. Functionality</h2>
+
+
+   <h3>3.1 Admin Dashboard Features</h3>
+   <ul>
+     <li><strong>Navbar Options:</strong>
+       <ul>
+         <li>Employee List (View/Add/Delete)</li>
+         <li>Student List (View/Edit/Delete)</li>
+         <li>Logout</li>
+       </ul>
+     </li>
+     <li><strong>Student Creation:</strong> <code>added_by</code> dropdown with all employees</li>
+   </ul>
+
+
+   <h3>3.2 Sales Dashboard Features</h3>
+   <ul>
+     <li><strong>Navbar Options:</strong>
+       <ul>
+         <li>Add Student (Form submission)</li>
+         <li>View Student List (Read-only)</li>
+         <li>Logout</li>
+       </ul>
+     </li>
+     <li><strong>Student Creation:</strong> <code>added_by</code> auto-filled with logged-in username</li>
+   </ul>
+
+
+   <h2>4. Technical Highlights</h2>
+
+
+   <ul>
+     <li><strong>Django ORM:</strong> Used for all database operations such as <code>.filter()</code>, <code>.get()</code>, <code>.create()</code>, and <code>.update()</code>.</li>
+     <li><strong>Function-Based Views (FBVs):</strong> All logic implemented using standard Django view functions for better control and customization.</li>
+     <li><strong>ModelForms:</strong> Used to create forms from models for validation and clean input handling.</li>
+     <li><strong>Role Handling Logic:</strong> Access control handled directly in FBVs using <code>request.user</code> checks and conditions.</li>
+     <li><strong>Django Admin Panel:</strong> Extended for backend data viewing with list displays, filters, and inline edits.</li>
+     <li><strong>Session & Message Framework:</strong> Sessions used for login tracking and success/error messages shown using Django’s messaging system.</li>
+   </ul>
+
+
+   <h2>5. Security & Data Integrity</h2>
+   <ul>
+     <li><strong>Role-Based Access:</strong> Sales users restricted from accessing admin-only features</li>
+     <li><strong>Field Control:</strong> <code>added_by</code> is enforced and protected from tampering</li>
+     <li><strong>CSRF Protection:</strong> All POST forms use <code>{% csrf_token %}</code></li>
+     <li><strong>Session Handling:</strong> Proper login/logout with redirects and protections</li>
+   </ul>
+
+
+   <h2>6. Technology Stack</h2>
+   <ul>
+     <li><strong>Backend:</strong> Python, Django (FBVs, ORM, authentication)</li>
+     <li><strong>Frontend:</strong> Django Templates, HTML, Bootstrap, CSS</li>
+     <li><strong>Database:</strong> MySQL with normalized schema and constraints</li>
+   </ul>
+
+
+   <h2>7. Summary</h2>
+   <ul class="check-list">
+     <li>Admin users get full CRUD access</li>
+     <li>Sales users have limited access (add + read)</li>
+     <li>Dynamic dashboards based on role</li>
+     <li>Clean, secure handling of student assignments via <code>added_by</code></li>
+     <li>Used Django ORM and Function-Based Views for all logic</li>
+     <li>Forms built using ModelForms for validation</li>
+     <li>Admin site used for backend data management</li>
+   </ul>
+ </div>
+{% endblock %}
